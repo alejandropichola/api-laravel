@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Home\HomeController@index');
 Route::get('countries', 'Countries\CountriesController@index');
 Route::get('countries/{country}/subdivisions', 'Countries\SubdivisionsController@index');
 Route::get('enviar', ['as' => 'enviar', function () {
