@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Carousel extends Model
 {
     protected $fillable = [
         'id',
         'site_id',
-        'name',
+        'image',
         'path',
         'extension',
         'created_at',
@@ -21,12 +22,13 @@ class Carousel extends Model
     }
     public function toJSONObject()
     {
+        $url = $this->path.'/app/public/'.$this->image;
+        $img = file_get_contents($url);
+        $code = base64_encode($img);
         return [
             'id' => $this->id,
             'site_id'=>$this->site_id,
-            'name' => $this->name,
-            'path' => $this->path,
-            'extension' => $this->extension,
+            'image' => $code,
             'created_at' => $this->created_at->format('c'),
             'updated_at' => $this->updated_at->format('c')
         ];

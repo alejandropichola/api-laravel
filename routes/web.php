@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,8 +13,9 @@
 Route::get('/', 'Home\HomeController@index');
 Route::get('countries', 'Countries\CountriesController@index');
 Route::get('countries/{country}/subdivisions', 'Countries\SubdivisionsController@index');
+Route::get('carousel', 'Carousel\CarouselController@index');
+Route::post('carousel', 'Carousel\CarouselController@store');
 Route::get('enviar', ['as' => 'enviar', function () {
-
     $data = ['link' => 'http://styde.net'];
 
     \Mail::send('emails.notification', $data, function ($message) {

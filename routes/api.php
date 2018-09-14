@@ -12,4 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::resource('countries', 'Countries\CountriesController', ['only'=> ['index', 'show']]);
+Route::resource('/', 'Home\HomeController@index');
+Route::resource('countries', 'Countries\CountriesController@index', ['only'=> ['index', 'show']]);
+Route::resource('countries/{country}/subdivisions', 'Countries\SubdivisionsController', ['only' => ['index']]);
+Route::resource('carousel', 'Carousel\CarouselController', ['only'=> ['index', 'store']]);

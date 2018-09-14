@@ -14,10 +14,9 @@ class CarouselStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'site_id' => 'require',
-            'name' => 'required|string',
-            'path' => 'required|string',
-            'extension' => 'require'
+            'site_id' => 'required|integer',
+            'image' => 'required|string',
+            'extension' => 'required|string'
         ];
     }
 }
