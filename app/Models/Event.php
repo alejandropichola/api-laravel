@@ -2,35 +2,26 @@
 
 namespace App;
 
-use App\Models\Site;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
-class ProductCategory extends Model
+class Event extends Model
 {
     protected $fillable = [
         'id',
-        'site_id',
-        'name',
-        'description',
+        'product_id',
         'image',
-        'extension',
+        'description',
+        'title',
         'created_at',
         'updated_at'
     ];
 
-    public function products()
+    public function product()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany('App\Product', 'product_id', 'id');
     }
 
-    public function site()
-    {
-        return $this->belongsTo(Site::class);
-    }
-    public static function getListByProductCategory(Site $site)
-    {
-        return ProductCategory::where('site_id', $site->id)->orderBy('name')->get();
-    }
     public function toJSONObject()
     {
         $public_path = storage_path();
@@ -40,10 +31,9 @@ class ProductCategory extends Model
         return [
             'id' => $this->id,
             'site_id' => $this->site_id,
-            'name' => $this->name,
-            'description' => $this->description,
             'image' => $code,
-            'extension' => $this->extension,
+            'description' => $this->description,
+            'title' => $this->title,
             'created_at' => $this->created_at->format('c'),
             'updated_at' => $this->updated_at->format('c')
         ];
@@ -58,6 +48,10 @@ class ProductCategory extends Model
 
     public static function getList()
     {
-        return ProductCategory::orderBy('name')->get();
+        return Event::all();
+    }
+
+    public static function getEvent($event) {
+        return Event::find($event)->get();
     }
 }

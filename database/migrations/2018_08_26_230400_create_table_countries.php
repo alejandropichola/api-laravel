@@ -16,6 +16,7 @@ class CreateTableCountries extends Migration
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
             $table->collation = 'utf8mb4_unicode_ci';
+            $table->engine = 'InnoDB';
         });
     }
 

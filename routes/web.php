@@ -15,6 +15,13 @@ Route::get('countries', 'Countries\CountriesController@index');
 Route::get('countries/{country}/subdivisions', 'Countries\SubdivisionsController@index');
 Route::get('carousel', 'Carousel\CarouselController@index');
 Route::post('carousel', 'Carousel\CarouselController@store');
+Route::get('product-category', 'Product\ProductCategoryController@index');
+Route::post('product-category', 'Product\ProductCategoryController@store');
+Route::get('product-category/{productCategory}/product', 'Product\ProductController@index');
+Route::post('product', 'Product\ProductController@store');
+Route::get('event', 'Event\EventController@index');
+Route::post('event', 'Event\EventController@store');
+Route::delete('event/{eventId}', 'Event\EventController@destroy');
 Route::get('enviar', ['as' => 'enviar', function () {
     $data = ['link' => 'http://styde.net'];
 

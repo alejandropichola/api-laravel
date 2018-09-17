@@ -10,11 +10,13 @@ class CreateTableSubdivision extends Migration
     {
         Schema::create('subdivisions', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->integer('country_id');
+            $table->unsignedInteger('country_id');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->string('name');
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
             $table->collation = 'utf8mb4_unicode_ci';
+            $table->engine = 'InnoDB';
         });
     }
 
