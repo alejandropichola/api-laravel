@@ -14,9 +14,9 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($siteId)
     {
-        $event = Event::toJSONArray(Event::getList());
+        $event = Event::toJSONArray(Event::getList($siteId));
         return response()->json([
             'data' => $event,
         ]);

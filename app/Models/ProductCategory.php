@@ -34,9 +34,12 @@ class ProductCategory extends Model
     public function toJSONObject()
     {
         $public_path = storage_path();
-        $url = $public_path.'/app/public/'.$this->image;
-        $img = file_get_contents($url);
-        $code = base64_encode($img);
+        $code = null;
+        if ($this->image) {
+            $url = $public_path . '/app/public/' . $this->image;
+            $img = file_get_contents($url);
+            $code = base64_encode($img);
+        }
         return [
             'id' => $this->id,
             'site_id' => $this->site_id,
@@ -56,8 +59,11 @@ class ProductCategory extends Model
         return $response;
     }
 
-    public static function getList()
+    public static function getList($id)
     {
-        return ProductCategory::orderBy('name')->get();
+        return ProductCategory::orderBy('name')->where('site_id', $id)->get();
+    }
+    public static function getProductCategory($id) {
+        return ProductCategory::where('id', $id)->get();
     }
 }

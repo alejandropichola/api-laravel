@@ -13,9 +13,9 @@ class CarouselController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($carouselId)
     {
-        $carousel = Carousel::toJSONArray(Carousel::getList());
+        $carousel = Carousel::toJSONArray(Carousel::getList($carouselId));
         return response()->json([
             'data' => $carousel,
         ]);
@@ -99,8 +99,17 @@ class CarouselController extends Controller
      * @param  \App\Models\Carousel $carousel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Carousel $carousel)
+    public function destroy($id)
     {
-        //
+        $carousel = Carousel::getCarousel($id);
+        $nameImg = $carousel[0] ? $carousel[0]['image'] : null;
+        $public_path = storage_path();
+        $url = $public_path . '/app/public/' . $nameImg;
+        unlink($url);
+        ProductCategory::destroy($id);
+        $response = response()->json([
+            "data" => 'ok'
+        ], 201);
+        return $response;
     }
 }

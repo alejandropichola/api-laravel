@@ -13,9 +13,9 @@ class ProductCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($siteId)
     {
-        $productCategory = ProductCategory::toJSONArray(ProductCategory::getList());
+        $productCategory = ProductCategory::toJSONArray(ProductCategory::getList($siteId));
         return response()->json([
             'data' => $productCategory,
         ]);
@@ -100,8 +100,17 @@ class ProductCategoryController extends Controller
      * @param  \App\ProductCategory $productCategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProductCategory $productCategory)
+    public function destroy($id)
     {
-        //
+        $productCategory = ProductCategory::getProductCategory($id);
+        $nameImg = $productCategory[0] ? $productCategory[0]['image'] : null;
+        $public_path = storage_path();
+        $url = $public_path . '/app/public/' . $nameImg;
+        unlink($url);
+        ProductCategory::destroy($id);
+        $response = response()->json([
+            "data" => 'ok'
+        ], 201);
+        return $response;
     }
 }

@@ -25,9 +25,12 @@ class Event extends Model
     public function toJSONObject()
     {
         $public_path = storage_path();
-        $url = $public_path.'/app/public/'.$this->image;
-        $img = file_get_contents($url);
-        $code = base64_encode($img);
+        $code = null;
+        if ($this->image) {
+            $url = $public_path.'/app/public/'.$this->image;
+            $img = file_get_contents($url);
+            $code = base64_encode($img);
+        }
         return [
             'id' => $this->id,
             'site_id' => $this->site_id,
@@ -46,12 +49,12 @@ class Event extends Model
         return $response;
     }
 
-    public static function getList()
+    public static function getList($id)
     {
-        return Event::all();
+        return Event::all()->where('site_id', $id);
     }
 
     public static function getEvent($event) {
-        return Event::find($event)->get();
+        return Event::where('id', $event)->get();
     }
 }
