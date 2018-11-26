@@ -24,16 +24,4 @@ Route::delete('product/$id', 'Product\ProductController@destroy');
 Route::get('site/{siteId}/event', 'Event\EventController@index');
 Route::post('event', 'Event\EventController@store');
 Route::delete('event/{eventId}', 'Event\EventController@destroy');
-Route::get('enviar', ['as' => 'enviar', function () {
-    $data = ['link' => 'http://styde.net'];
-
-    \Mail::send('emails.notification', $data, function ($message) {
-
-        $message->from('email@styde.net', 'Styde.Net');
-
-        $message->to('user@example.com')->subject('Notificación');
-
-    });
-
-    return "Se envío el email";
-}]);
+Route::post('/send', 'Notification\NotificationController@send');
