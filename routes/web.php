@@ -14,7 +14,7 @@ Route::get('/', 'Home\HomeController@index');
 Route::get('countries', 'Countries\CountriesController@index');
 Route::get('countries/{country}/subdivisions', 'Countries\SubdivisionsController@index');
 Route::get('site/{siteId}/carousel', 'Carousel\CarouselController@index');
-Route::post('carousel', 'Carousel\CarouselController@store');
+Route::post('carousel-create', 'Carousel\CarouselController@createCarousel');
 Route::get('site/{siteId}/product-category', 'Product\ProductCategoryController@index');
 Route::post('product-category', 'Product\ProductCategoryController@store');
 Route::delete('product-category/$id', 'Product\ProductCategoryController@destroy');

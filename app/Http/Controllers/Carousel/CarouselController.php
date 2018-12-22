@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Carousel;
 use App\Models\Carousel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Request\CarouselStoreRequest;
+
 class CarouselController extends Controller
 {
     /**
@@ -37,10 +37,10 @@ class CarouselController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CarouselStoreRequest $request)
+    public function store(Request $request)
     {
         $file = $request->input('image');
-        $file_name = 'carousel_'.time().'.jpg';
+        $file_name = 'carousel_' . time() . '.jpg';
         $public_path = storage_path();
         list(, $file) = explode(';', $file);
         list(, $file) = explode(',', $file);
@@ -54,9 +54,31 @@ class CarouselController extends Controller
         $carousel->extension = $request->input('extension');
         $carousel->save();
         $response = response()->json([
-            "data"=>$carousel->toJSONObject()
+            "data" => $carousel->toJSONObject()
         ], 201);
-       return json_encode($response, JSON_UNESCAPED_SLASHES);
+        return json_encode($response, JSON_UNESCAPED_SLASHES);
+    }
+
+    public function createCarousel(Request $request)
+    {
+        $file = $request->input('image');
+        $file_name = 'carousel_' . time() . '.jpg';
+        $public_path = storage_path();
+        list(, $file) = explode(';', $file);
+        list(, $file) = explode(',', $file);
+        if ($file != "") {
+            \Storage::disk('public')->put($file_name, base64_decode($file));
+        }
+        $carousel = new Carousel();
+        $carousel->site_id = $request->input('site_id');
+        $carousel->image = $file_name;
+        $carousel->path = $public_path;
+        $carousel->extension = $request->input('extension');
+        $carousel->save();
+        $response = response()->json([
+            "data" => $carousel->toJSONObject()
+        ], 201);
+        return json_encode($response, JSON_UNESCAPED_SLASHES);
     }
 
     /**
